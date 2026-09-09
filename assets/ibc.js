@@ -5,7 +5,9 @@ const safeURL=(value)=>{try{const u=new URL(value,location.origin);return ['http
 const dates=new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',month:'long',day:'numeric',weekday:'short'});
 const times=new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',hour12:false});
 const labels={open:'開催予定',closed:'受付終了',cancelled:'中止'};
-function card(e,course){const el=make('article',undefined,'event');el.append(make('span',labels[e.state]||'開催予定','badge'),make('p',dates.format(new Date(e.start))+' '+e.session,'date'),make('h3',e.title),make('p',times.format(new Date(e.start))+'–'+times.format(new Date(e.end))+' ／ '+e.audience));const dl=make('dl');for(const p of e.programs.filter(p=>!course||p.key===course)){dl.append(make('dt',p.label),make('dd',p.text));}el.append(dl);const url=safeURL(e.url);if(url){const a=make('a','開催内容を見る →','button');a.href=url;el.append(a);}return el;}
+function card(e,course){const el=make('article',undefined,'event');
+if(e.image&&safeURL(e.image.url)){const img=make('img',undefined,'oc-image');img.src=safeURL(e.image.url);img.alt=e.image.alt||'';img.loading='lazy';img.decoding='async';if(e.image.width>0&&e.image.height>0){img.width=e.image.width;img.height=e.image.height;}img.addEventListener('error',()=>img.remove(),{once:true});el.append(img);}
+el.append(make('span',labels[e.state]||'開催予定','badge'),make('p',dates.format(new Date(e.start))+' '+e.session,'date'),make('h3',e.title),make('p',times.format(new Date(e.start))+'–'+times.format(new Date(e.end))+' ／ '+e.audience));const dl=make('dl');for(const p of e.programs.filter(p=>!course||p.key===course)){dl.append(make('dt',p.label),make('dd',p.text));}el.append(dl);const url=safeURL(e.url);if(url){const a=make('a','開催内容を見る →','button');a.href=url;el.append(a);}return el;}
 async function load(){
  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),10000);
  try{const res=await fetch('/cms/?rest_route=/ibc/v1/feed',{cache:'no-store',signal:controller.signal});if(!res.ok)throw Error('feed');const data=await res.json();if(!Array.isArray(data.events)||!Array.isArray(data.news))throw Error('shape');

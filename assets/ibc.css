@@ -5,3 +5,6 @@ button{font:inherit;cursor:pointer}button:disabled{cursor:default}.site-header{m
 @media(max-width:760px){.site-header{display:grid;grid-template-columns:1fr auto;gap:16px 12px;padding:16px 18px 0}.global-nav{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:1fr 1.5fr 1fr 1fr;width:100%;gap:0;border-top:1px solid #e1e7ec}.global-nav a,.global-nav button{padding:13px 3px;font-size:12px;white-space:normal}.nav-en{display:none}.menu-toggle{grid-column:2;grid-row:1;width:56px;min-height:56px;font-size:11px;gap:8px}.site-header .brand span{max-width:none}.fv-slide img{height:auto;aspect-ratio:1640/1000;object-fit:contain}.menu-grid{grid-template-columns:1fr}.site-menu,.nav-info{padding:24px}.menu-top h2{font-size:25px}.slider-controls{gap:8px;padding:8px}.firstview+main .hero h1{font-size:32px}}
 @media(max-width:600px){.fv-slide img{aspect-ratio:840/1000;height:auto;max-height:68svh;object-fit:contain}}
 @media(prefers-reduced-motion:reduce){.fv-slide{transition:none}}
+
+/* Optional OC image: preserve the complete image, including poster text. */
+.oc-image{display:block;width:100%;max-width:100%;height:auto;margin:0 0 22px;object-fit:contain}

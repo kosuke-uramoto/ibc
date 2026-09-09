@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) { exit; }
 function ibc_courses() { return ['hotel'=>'ホテル・ブライダル','railway'=>'鉄道','international'=>'国際ビジネス','airline'=>'エアライン','it'=>'ITビジネス']; }
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); });
 add_action('init', function () {
- register_post_type('ibc_oc', ['labels'=>['name'=>'オープンキャンパス','singular_name'=>'開催回','add_new_item'=>'開催回を追加','edit_item'=>'開催回を編集'], 'public'=>true,'show_in_rest'=>true,'menu_icon'=>'dashicons-calendar-alt','supports'=>['title','editor','thumbnail'],'rewrite'=>['slug'=>'oc'],'has_archive'=>true]);
+ register_post_type('ibc_oc', ['labels'=>['name'=>'オープンキャンパス','singular_name'=>'開催回','add_new_item'=>'開催回を追加','edit_item'=>'開催回を編集','featured_image'=>'イメージ画像（任意）','set_featured_image'=>'イメージ画像を設定','remove_featured_image'=>'イメージ画像を削除','use_featured_image'=>'この画像を使用'], 'public'=>true,'show_in_rest'=>true,'menu_icon'=>'dashicons-calendar-alt','supports'=>['title','editor','thumbnail'],'rewrite'=>['slug'=>'oc'],'has_archive'=>true]);
 });
 add_action('add_meta_boxes', function () {
  add_meta_box('ibc_oc_fields','開催情報・学科別体験','ibc_oc_fields','ibc_oc','normal','high');
@@ -11,7 +11,7 @@ add_action('add_meta_boxes', function () {
 });
 function ibc_oc_fields($post) {
  wp_nonce_field('ibc_save','ibc_nonce');
- echo '<p>デモ用の入力画面です。午前・午後はそれぞれ別の開催回として登録します。空欄の学科は掲載されません。</p>';
+ echo '<p>デモ用の入力画面です。午前・午後はそれぞれ別の開催回として登録します。空欄の学科は掲載されません。</p><p>画像を載せる場合は、編集画面の「イメージ画像（任意）」からアップロードまたはメディアライブラリの画像を選び、投稿を更新してください。未設定なら画像なしで表示します。</p>';
  $fields=['start'=>['開催開始日時（日本時間）','datetime-local'],'end'=>['開催終了日時（日本時間）','datetime-local'],'session'=>['午前／午後など','text'],'audience'=>['対象者','text'],'venue'=>['集合場所','text']];
  foreach($fields as $key=>$info) { echo '<p><label for="ibc_'.$key.'"><strong>'.esc_html($info[0]).'</strong></label><br><input style="width:100%;max-width:540px" id="ibc_'.$key.'" name="ibc['.$key.']" type="'.$info[1].'" value="'.esc_attr(get_post_meta($post->ID,'_ibc_'.$key,true)).'"></p>'; }
  echo '<p><label>開催状況 <select name="ibc[state]">';
@@ -53,7 +53,12 @@ function ibc_event($id) {
  if(!$start || !$end || $end<=$start) return null;
  $programs=[]; foreach(ibc_courses() as $key=>$label) { $text=get_post_meta($id,'_ibc_'.$key,true); if($text!=='') $programs[]=['key'=>$key,'label'=>$label,'text'=>$text]; }
  $state=get_post_meta($id,'_ibc_state',true)?:'open'; if($state!=='cancelled' && $end->getTimestamp()<=time()) $state='ended';
- return ['id'=>$id,'title'=>get_the_title($id),'url'=>get_permalink($id),'start'=>$start->format(DATE_ATOM),'end'=>$end->format(DATE_ATOM),'session'=>get_post_meta($id,'_ibc_session',true),'audience'=>get_post_meta($id,'_ibc_audience',true),'venue'=>get_post_meta($id,'_ibc_venue',true),'state'=>$state,'programs'=>$programs];
+ $image=null; $image_id=get_post_thumbnail_id($id);
+ if($image_id && wp_attachment_is_image($image_id)) {
+  $source=wp_get_attachment_image_src($image_id,'large');
+  if($source) $image=['id'=>$image_id,'url'=>$source[0],'width'=>$source[1],'height'=>$source[2],'alt'=>(string)get_post_meta($image_id,'_wp_attachment_image_alt',true)];
+ }
+ return ['image'=>$image,'id'=>$id,'title'=>get_the_title($id),'url'=>get_permalink($id),'start'=>$start->format(DATE_ATOM),'end'=>$end->format(DATE_ATOM),'session'=>get_post_meta($id,'_ibc_session',true),'audience'=>get_post_meta($id,'_ibc_audience',true),'venue'=>get_post_meta($id,'_ibc_venue',true),'state'=>$state,'programs'=>$programs];
 }
 add_action('rest_api_init',function(){ register_rest_route('ibc/v1','/feed',['methods'=>'GET','permission_callback'=>'__return_true','callback'=>function(){
  $events=[]; foreach(get_posts(['post_type'=>'ibc_oc','post_status'=>'publish','posts_per_page'=>-1,'meta_key'=>'_ibc_start','orderby'=>'meta_value','order'=>'ASC']) as $p) { $event=ibc_event($p->ID); if($event && $event['state']!=='ended' && strtotime($event['end'])>time()) $events[]=$event; }
@@ -63,7 +68,9 @@ add_action('rest_api_init',function(){ register_rest_route('ibc/v1','/feed',['me
 function ibc_event_html($event) {
  if(!$event) return;
  $labels=['open'=>'開催予定','closed'=>'受付終了','cancelled'=>'中止','ended'=>'開催終了'];
- echo '<section class="event"><p class="eyebrow">OPEN CAMPUS · '.esc_html($labels[$event['state']]).'</p><h2>'.esc_html($event['title']).'</h2><p class="date">'.esc_html(wp_date('Y年n月j日 H:i',strtotime($event['start']),new DateTimeZone('Asia/Tokyo'))).'–'.esc_html(wp_date('H:i',strtotime($event['end']),new DateTimeZone('Asia/Tokyo'))).'</p><p>'.esc_html($event['session'].' ／ '.$event['audience']).'</p><p>'.esc_html($event['venue']).'</p><dl>';
+ echo '<section class="event">';
+ if(!empty($event['image']['id'])) echo wp_get_attachment_image($event['image']['id'],'large',false,['class'=>'oc-image','loading'=>'lazy','decoding'=>'async']);
+ echo '<p class="eyebrow">OPEN CAMPUS · '.esc_html($labels[$event['state']]).'</p><h2>'.esc_html($event['title']).'</h2><p class="date">'.esc_html(wp_date('Y年n月j日 H:i',strtotime($event['start']),new DateTimeZone('Asia/Tokyo'))).'–'.esc_html(wp_date('H:i',strtotime($event['end']),new DateTimeZone('Asia/Tokyo'))).'</p><p>'.esc_html($event['session'].' ／ '.$event['audience']).'</p><p>'.esc_html($event['venue']).'</p><dl>';
  foreach($event['programs'] as $p) echo '<dt>'.esc_html($p['label']).'</dt><dd>'.nl2br(esc_html($p['text'])).'</dd>';
  echo '</dl></section>';
 }
