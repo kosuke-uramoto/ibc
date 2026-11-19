@@ -1,5 +1,7 @@
 <?php
 if (!defined('ABSPATH')) { exit; }
+require_once __DIR__.'/inc/oc-registration.php';
+require_once __DIR__.'/inc/inquiry-forms.php';
 function ibc_courses() { return ['hotel'=>'ホテル・ブライダル','railway'=>'鉄道','international'=>'国際ビジネス','airline'=>'エアライン','it'=>'ITビジネス']; }
 add_action('after_setup_theme', function () { add_theme_support('title-tag'); add_theme_support('post-thumbnails'); });
 add_action('init', function () {
@@ -17,7 +19,7 @@ function ibc_oc_fields($post) {
  echo '<p><label>開催状況 <select name="ibc[state]">';
  foreach(['open'=>'開催予定','closed'=>'受付終了','cancelled'=>'中止'] as $value=>$label) { echo '<option value="'.$value.'" '.selected(get_post_meta($post->ID,'_ibc_state',true),$value,false).'>'.$label.'</option>'; } echo '</select></label></p>';
  foreach(ibc_courses() as $key=>$label) { echo '<p><label for="ibc_'.$key.'"><strong>'.esc_html($label).'：体験内容</strong></label><br><textarea style="width:100%" rows="2" id="ibc_'.$key.'" name="ibc['.$key.']">'.esc_textarea(get_post_meta($post->ID,'_ibc_'.$key,true)).'</textarea></p>'; }
- echo '<p>フォーム連携は保留です。申込ボタンは設けず、詳細への案内を表示します。</p>';
+ echo '<p>申込プログラムは「申込プログラム・受付設定」で管理します。設定後はその内容が紹介・フォームに優先反映されます。</p>';
 }
 function ibc_related_fields($post) {
  wp_nonce_field('ibc_related_save','ibc_related_nonce');
@@ -52,27 +54,32 @@ function ibc_event($id) {
  $start=ibc_datetime(get_post_meta($id,'_ibc_start',true)); $end=ibc_datetime(get_post_meta($id,'_ibc_end',true));
  if(!$start || !$end || $end<=$start) return null;
  $programs=[]; foreach(ibc_courses() as $key=>$label) { $text=get_post_meta($id,'_ibc_'.$key,true); if($text!=='') $programs[]=['key'=>$key,'label'=>$label,'text'=>$text]; }
+ if(metadata_exists('post',$id,'_ibc_programs')) {
+  $programs=[];foreach(ibc_reg_programs($id) as $row) $programs[]=['key'=>$row['course'],'label'=>ibc_courses()[$row['course']]??'共通プログラム','text'=>$row['label'].($row['description']?'：'.$row['description']:'')];
+ }
  $state=get_post_meta($id,'_ibc_state',true)?:'open'; if($state!=='cancelled' && $end->getTimestamp()<=time()) $state='ended';
  $image=null; $image_id=get_post_thumbnail_id($id);
  if($image_id && wp_attachment_is_image($image_id)) {
   $source=wp_get_attachment_image_src($image_id,'large');
   if($source) $image=['id'=>$image_id,'url'=>$source[0],'width'=>$source[1],'height'=>$source[2],'alt'=>(string)get_post_meta($image_id,'_wp_attachment_image_alt',true)];
  }
- return ['image'=>$image,'id'=>$id,'title'=>get_the_title($id),'url'=>get_permalink($id),'start'=>$start->format(DATE_ATOM),'end'=>$end->format(DATE_ATOM),'session'=>get_post_meta($id,'_ibc_session',true),'audience'=>get_post_meta($id,'_ibc_audience',true),'venue'=>get_post_meta($id,'_ibc_venue',true),'state'=>$state,'programs'=>$programs];
+ return ['image'=>$image,'id'=>$id,'title'=>get_the_title($id),'url'=>get_permalink($id),'entry_url'=>ibc_reg_url($id),'start'=>$start->format(DATE_ATOM),'end'=>$end->format(DATE_ATOM),'session'=>get_post_meta($id,'_ibc_session',true),'audience'=>get_post_meta($id,'_ibc_audience',true),'venue'=>get_post_meta($id,'_ibc_venue',true),'state'=>$state,'programs'=>$programs];
 }
 add_action('rest_api_init',function(){ register_rest_route('ibc/v1','/feed',['methods'=>'GET','permission_callback'=>'__return_true','callback'=>function(){
  $events=[]; foreach(get_posts(['post_type'=>'ibc_oc','post_status'=>'publish','posts_per_page'=>-1,'meta_key'=>'_ibc_start','orderby'=>'meta_value','order'=>'ASC']) as $p) { $event=ibc_event($p->ID); if($event && $event['state']!=='ended' && strtotime($event['end'])>time()) $events[]=$event; }
- $news=[]; foreach(get_posts(['post_type'=>'post','post_status'=>'publish','posts_per_page'=>6]) as $p) $news[]=['title'=>get_the_title($p),'date'=>get_the_date('Y.m.d',$p),'url'=>get_permalink($p)];
- $response=new WP_REST_Response(['events'=>$events,'news'=>$news]); $response->header('Cache-Control','no-store, max-age=0'); return $response;
+ $news=ibc_editorial_feed('news'); $campus=ibc_editorial_feed('campus-life');
+ $response=new WP_REST_Response(['events'=>$events,'news'=>$news,'campus'=>$campus]); $response->header('Cache-Control','no-store, max-age=0'); return $response;
  }]); });
-function ibc_event_html($event) {
+function ibc_event_html($event,$show_entry=true) {
  if(!$event) return;
  $labels=['open'=>'開催予定','closed'=>'受付終了','cancelled'=>'中止','ended'=>'開催終了'];
  echo '<section class="event">';
  if(!empty($event['image']['id'])) echo wp_get_attachment_image($event['image']['id'],'large',false,['class'=>'oc-image','loading'=>'lazy','decoding'=>'async']);
  echo '<p class="eyebrow">OPEN CAMPUS · '.esc_html($labels[$event['state']]).'</p><h2>'.esc_html($event['title']).'</h2><p class="date">'.esc_html(wp_date('Y年n月j日 H:i',strtotime($event['start']),new DateTimeZone('Asia/Tokyo'))).'–'.esc_html(wp_date('H:i',strtotime($event['end']),new DateTimeZone('Asia/Tokyo'))).'</p><p>'.esc_html($event['session'].' ／ '.$event['audience']).'</p><p>'.esc_html($event['venue']).'</p><dl>';
  foreach($event['programs'] as $p) echo '<dt>'.esc_html($p['label']).'</dt><dd>'.nl2br(esc_html($p['text'])).'</dd>';
- echo '</dl></section>';
+ echo '</dl>';
+ if($show_entry && ibc_reg_available($event['id']) && ibc_reg_url($event['id'])) echo '<p><a class="button" href="'.esc_url(ibc_reg_url($event['id'])).'">このOCに申し込む（デモ） →</a></p>';
+ echo '</section>';
 }
 add_action('admin_menu',function(){ add_theme_page('モックアップの準備','モックアップの準備','manage_options','ibc-demo','ibc_demo_page'); });
 function ibc_demo_page(){
@@ -95,4 +102,17 @@ function ibc_demo_page(){
   echo '<div class="notice notice-success"><p>デモデータを準備しました。左メニューのオープンキャンパスから編集できます。</p></div>';
  }
  echo '<div class="wrap"><h1>IBC モックアップの準備</h1><p>次の土曜日の午前・午後のOCと、関連ニュースを公開状態で追加します。内容には「デモ」と明記されます。一度だけ実行できます。</p><form method="post">'; wp_nonce_field('ibc_demo'); submit_button('デモデータを追加','primary','ibc_demo_create'); echo '</form><p>追加後は静的ページを再読み込みすると更新内容が表示されます。</p></div>';
+}
+
+function ibc_editorial_feed($category) {
+ $items=[];
+ foreach(get_posts(['post_type'=>'post','post_status'=>'publish','posts_per_page'=>6,'category_name'=>$category,'orderby'=>['date'=>'DESC','ID'=>'DESC']]) as $post)
+  $items[]=['title'=>get_the_title($post),'date'=>get_the_date('Y.m.d',$post),'url'=>get_permalink($post)];
+ return $items;
+}
+function ibc_editorial_label($id) {
+ $labels=[];
+ if(has_category('news',$id)) $labels[]='NEWS';
+ if(has_category('campus-life',$id)) $labels[]='CAMPUS LIFE';
+ return $labels?implode(' / ',$labels):'NEWS';
 }

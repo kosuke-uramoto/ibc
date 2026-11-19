@@ -1,0 +1,158 @@
+[
+  {
+    "tag": "input",
+    "type": "radio",
+    "name": "online",
+    "id": "online10",
+    "value": "0",
+    "checked": null,
+    "label": "来校"
+  },
+  {
+    "tag": "input",
+    "type": "radio",
+    "name": "online",
+    "id": "online20",
+    "value": "1",
+    "label": "オンライン"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "text",
+    "id": "hope-day",
+    "name": "hope_day",
+    "value": ""
+  },
+  {
+    "tag": "select",
+    "name": "hope_time",
+    "class": "hide-search w-100",
+    "options": [
+      {
+        "value": "10：00～",
+        "text": "10：00～"
+      },
+      {
+        "value": "11：00～",
+        "text": "11：00～"
+      },
+      {
+        "value": "13：00～",
+        "text": "13：00～"
+      },
+      {
+        "value": "14：00～",
+        "text": "14：00～"
+      },
+      {
+        "value": "15：00～",
+        "text": "15：00～"
+      },
+      {
+        "value": "16：00～",
+        "text": "16：00～"
+      },
+      {
+        "value": "17：00～",
+        "text": "17：00～"
+      }
+    ]
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required,custom[zenkaku]]",
+    "type": "text",
+    "id": "name",
+    "name": "name",
+    "value": "",
+    "label": "氏名(西鉄 空美)"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required,custom[zenkaku],custom[kana]]",
+    "type": "text",
+    "id": "name_furi",
+    "name": "name_furi",
+    "value": "",
+    "label": "フリガナ(ニシテツ ソラミ)"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "text",
+    "id": "school",
+    "name": "school",
+    "value": "",
+    "label": "学校名 or 勤務先"
+  },
+  {
+    "tag": "select",
+    "name": "grade",
+    "class": "hide-search w-100",
+    "options": [
+      {
+        "value": "103",
+        "text": "高校３年"
+      },
+      {
+        "value": "102",
+        "text": "高校２年"
+      },
+      {
+        "value": "101",
+        "text": "高校１年"
+      },
+      {
+        "value": "201",
+        "text": "大学 ・ 短大生"
+      },
+      {
+        "value": "301",
+        "text": "社会人"
+      },
+      {
+        "value": "302",
+        "text": "留学生"
+      },
+      {
+        "value": "401",
+        "text": "保護者"
+      },
+      {
+        "value": "501",
+        "text": "教職員"
+      },
+      {
+        "value": "901",
+        "text": "その他"
+      }
+    ]
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required],custom[email]",
+    "type": "email",
+    "name": "mail",
+    "id": "mail",
+    "value": "",
+    "label": "メールアドレス (abc@ibc.ac.jp)"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required],custom[phone]",
+    "type": "tel",
+    "name": "tell",
+    "id": "tell",
+    "value": "",
+    "label": "電話番号(携帯可) (090123456XX)"
+  },
+  {
+    "tag": "textarea",
+    "class": "input__field form-control py-3",
+    "type": "text",
+    "name": "recoque",
+    "id": "recoque",
+    "label": "ご質問など(※任意)"
+  }
+]

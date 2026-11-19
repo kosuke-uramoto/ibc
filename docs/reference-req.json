@@ -1,0 +1,752 @@
+[
+  {
+    "tag": "input",
+    "type": "radio",
+    "name": "req_type",
+    "id": "reqType10",
+    "value": "1",
+    "checked": null,
+    "label": "資料を希望する（入学案内書・願書など一式を送付します）"
+  },
+  {
+    "tag": "input",
+    "type": "radio",
+    "name": "req_type",
+    "id": "reqType20",
+    "value": "2",
+    "label": "願書を希望する（願書のみを送付します）"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required,custom[zenkaku]]",
+    "type": "text",
+    "id": "name",
+    "name": "name",
+    "value": "",
+    "label": "氏名(西鉄 空美)"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required,custom[kana]]",
+    "type": "text",
+    "id": "name_furi",
+    "name": "name_furi",
+    "value": "",
+    "label": "フリガナ(ニシテツ ソラミ)"
+  },
+  {
+    "tag": "select",
+    "class": "hide-search w-100 validate[required]",
+    "name": "birthday_year",
+    "options": [
+      {
+        "value": "",
+        "text": "誕生年"
+      },
+      {
+        "value": "2015",
+        "text": "2015年"
+      },
+      {
+        "value": "2014",
+        "text": "2014年"
+      },
+      {
+        "value": "2013",
+        "text": "2013年"
+      },
+      {
+        "value": "2012",
+        "text": "2012年"
+      },
+      {
+        "value": "2011",
+        "text": "2011年"
+      },
+      {
+        "value": "2010",
+        "text": "2010年"
+      },
+      {
+        "value": "2009",
+        "text": "2009年"
+      },
+      {
+        "value": "2008",
+        "text": "2008年"
+      },
+      {
+        "value": "2007",
+        "text": "2007年"
+      },
+      {
+        "value": "2006",
+        "text": "2006年"
+      },
+      {
+        "value": "2005",
+        "text": "2005年"
+      },
+      {
+        "value": "2004",
+        "text": "2004年"
+      },
+      {
+        "value": "2003",
+        "text": "2003年"
+      },
+      {
+        "value": "2002",
+        "text": "2002年"
+      },
+      {
+        "value": "2001",
+        "text": "2001年"
+      },
+      {
+        "value": "2000",
+        "text": "2000年"
+      },
+      {
+        "value": "1999",
+        "text": "1999年"
+      },
+      {
+        "value": "1998",
+        "text": "1998年"
+      },
+      {
+        "value": "1997",
+        "text": "1997年"
+      },
+      {
+        "value": "1996",
+        "text": "1996年"
+      },
+      {
+        "value": "1995",
+        "text": "1995年"
+      },
+      {
+        "value": "1994",
+        "text": "1994年"
+      },
+      {
+        "value": "1993",
+        "text": "1993年"
+      },
+      {
+        "value": "1992",
+        "text": "1992年"
+      },
+      {
+        "value": "1991",
+        "text": "1991年"
+      }
+    ]
+  },
+  {
+    "tag": "select",
+    "class": "hide-search w-100 validate[required]",
+    "name": "birthday_month",
+    "options": [
+      {
+        "value": "",
+        "text": "誕生月"
+      },
+      {
+        "value": "1",
+        "text": "1月"
+      },
+      {
+        "value": "2",
+        "text": "2月"
+      },
+      {
+        "value": "3",
+        "text": "3月"
+      },
+      {
+        "value": "4",
+        "text": "4月"
+      },
+      {
+        "value": "5",
+        "text": "5月"
+      },
+      {
+        "value": "6",
+        "text": "6月"
+      },
+      {
+        "value": "7",
+        "text": "7月"
+      },
+      {
+        "value": "8",
+        "text": "8月"
+      },
+      {
+        "value": "9",
+        "text": "9月"
+      },
+      {
+        "value": "10",
+        "text": "10月"
+      },
+      {
+        "value": "11",
+        "text": "11月"
+      },
+      {
+        "value": "12",
+        "text": "12月"
+      }
+    ]
+  },
+  {
+    "tag": "select",
+    "class": "hide-search w-100 validate[required]",
+    "name": "birthday_day",
+    "options": [
+      {
+        "value": "",
+        "text": "誕生日"
+      },
+      {
+        "value": "1",
+        "text": "1日"
+      },
+      {
+        "value": "2",
+        "text": "2日"
+      },
+      {
+        "value": "3",
+        "text": "3日"
+      },
+      {
+        "value": "4",
+        "text": "4日"
+      },
+      {
+        "value": "5",
+        "text": "5日"
+      },
+      {
+        "value": "6",
+        "text": "6日"
+      },
+      {
+        "value": "7",
+        "text": "7日"
+      },
+      {
+        "value": "8",
+        "text": "8日"
+      },
+      {
+        "value": "9",
+        "text": "9日"
+      },
+      {
+        "value": "10",
+        "text": "10日"
+      },
+      {
+        "value": "11",
+        "text": "11日"
+      },
+      {
+        "value": "12",
+        "text": "12日"
+      },
+      {
+        "value": "13",
+        "text": "13日"
+      },
+      {
+        "value": "14",
+        "text": "14日"
+      },
+      {
+        "value": "15",
+        "text": "15日"
+      },
+      {
+        "value": "16",
+        "text": "16日"
+      },
+      {
+        "value": "17",
+        "text": "17日"
+      },
+      {
+        "value": "18",
+        "text": "18日"
+      },
+      {
+        "value": "19",
+        "text": "19日"
+      },
+      {
+        "value": "20",
+        "text": "20日"
+      },
+      {
+        "value": "21",
+        "text": "21日"
+      },
+      {
+        "value": "22",
+        "text": "22日"
+      },
+      {
+        "value": "23",
+        "text": "23日"
+      },
+      {
+        "value": "24",
+        "text": "24日"
+      },
+      {
+        "value": "25",
+        "text": "25日"
+      },
+      {
+        "value": "26",
+        "text": "26日"
+      },
+      {
+        "value": "27",
+        "text": "27日"
+      },
+      {
+        "value": "28",
+        "text": "28日"
+      },
+      {
+        "value": "29",
+        "text": "29日"
+      },
+      {
+        "value": "30",
+        "text": "30日"
+      },
+      {
+        "value": "31",
+        "text": "31日"
+      }
+    ]
+  },
+  {
+    "tag": "input",
+    "type": "radio",
+    "name": "mpusex",
+    "id": "radioAge10",
+    "value": "1",
+    "label": "男性"
+  },
+  {
+    "tag": "input",
+    "type": "radio",
+    "name": "mpusex",
+    "id": "radioAge20",
+    "value": "2",
+    "checked": null,
+    "label": "女性"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "text",
+    "id": "school",
+    "name": "school",
+    "value": "",
+    "label": "学校名 or 勤務先"
+  },
+  {
+    "tag": "select",
+    "name": "grade",
+    "class": "hide-search w-100",
+    "options": [
+      {
+        "value": "103",
+        "text": "高校３年"
+      },
+      {
+        "value": "102",
+        "text": "高校２年"
+      },
+      {
+        "value": "101",
+        "text": "高校１年"
+      },
+      {
+        "value": "201",
+        "text": "大学 ・ 短大生"
+      },
+      {
+        "value": "301",
+        "text": "社会人"
+      },
+      {
+        "value": "302",
+        "text": "留学生"
+      },
+      {
+        "value": "401",
+        "text": "保護者"
+      },
+      {
+        "value": "501",
+        "text": "教職員"
+      },
+      {
+        "value": "901",
+        "text": "その他"
+      }
+    ]
+  },
+  {
+    "tag": "input",
+    "pattern": "[0-9]*",
+    "autocapitalize": "off",
+    "autocorrect": "off",
+    "type": "text",
+    "class": "input__field form-control validate[required,custom[number]]",
+    "name": "zip1",
+    "maxlength": "3",
+    "value": ""
+  },
+  {
+    "tag": "input",
+    "pattern": "[0-9]*",
+    "autocapitalize": "off",
+    "autocorrect": "off",
+    "type": "text",
+    "class": "input__field form-control validate[required,custom[number]]",
+    "name": "zip2",
+    "onkeyup": "AjaxZip3.zip2addr('zip1','zip2','pref','addr');",
+    "maxlength": "4",
+    "value": ""
+  },
+  {
+    "tag": "select",
+    "class": "hide-search w-100",
+    "name": "pref",
+    "options": [
+      {
+        "value": "40",
+        "text": "福岡県"
+      },
+      {
+        "value": "41",
+        "text": "佐賀県"
+      },
+      {
+        "value": "42",
+        "text": "長崎県"
+      },
+      {
+        "value": "43",
+        "text": "熊本県"
+      },
+      {
+        "value": "44",
+        "text": "大分県"
+      },
+      {
+        "value": "45",
+        "text": "宮崎県"
+      },
+      {
+        "value": "46",
+        "text": "鹿児島県"
+      },
+      {
+        "value": "47",
+        "text": "沖縄県"
+      },
+      {
+        "value": "34",
+        "text": "広島県"
+      },
+      {
+        "value": "35",
+        "text": "山口県"
+      },
+      {
+        "value": "31",
+        "text": "鳥取県"
+      },
+      {
+        "value": "32",
+        "text": "島根県"
+      },
+      {
+        "value": "33",
+        "text": "岡山県"
+      },
+      {
+        "value": "36",
+        "text": "徳島県"
+      },
+      {
+        "value": "37",
+        "text": "香川県"
+      },
+      {
+        "value": "38",
+        "text": "愛媛県"
+      },
+      {
+        "value": "39",
+        "text": "高知県"
+      },
+      {
+        "value": "30",
+        "text": "和歌山県"
+      },
+      {
+        "value": "29",
+        "text": "奈良県"
+      },
+      {
+        "value": "28",
+        "text": "兵庫県"
+      },
+      {
+        "value": "27",
+        "text": "大阪府"
+      },
+      {
+        "value": "26",
+        "text": "京都府"
+      },
+      {
+        "value": "25",
+        "text": "滋賀県"
+      },
+      {
+        "value": "24",
+        "text": "三重県"
+      },
+      {
+        "value": "15",
+        "text": "新潟県"
+      },
+      {
+        "value": "16",
+        "text": "山梨県"
+      },
+      {
+        "value": "17",
+        "text": "長野県"
+      },
+      {
+        "value": "18",
+        "text": "富山県"
+      },
+      {
+        "value": "19",
+        "text": "石川県"
+      },
+      {
+        "value": "20",
+        "text": "福井県"
+      },
+      {
+        "value": "21",
+        "text": "岐阜県"
+      },
+      {
+        "value": "22",
+        "text": "静岡県"
+      },
+      {
+        "value": "23",
+        "text": "愛知県"
+      },
+      {
+        "value": "8",
+        "text": "茨城県"
+      },
+      {
+        "value": "9",
+        "text": "栃木県"
+      },
+      {
+        "value": "10",
+        "text": "群馬県"
+      },
+      {
+        "value": "11",
+        "text": "埼玉県"
+      },
+      {
+        "value": "12",
+        "text": "千葉県"
+      },
+      {
+        "value": "13",
+        "text": "東京都"
+      },
+      {
+        "value": "14",
+        "text": "神奈川県"
+      },
+      {
+        "value": "2",
+        "text": "青森県"
+      },
+      {
+        "value": "3",
+        "text": "岩手県"
+      },
+      {
+        "value": "4",
+        "text": "宮城県"
+      },
+      {
+        "value": "5",
+        "text": "秋田県"
+      },
+      {
+        "value": "6",
+        "text": "山形県"
+      },
+      {
+        "value": "7",
+        "text": "福島県"
+      },
+      {
+        "value": "1",
+        "text": "北海道"
+      }
+    ]
+  },
+  {
+    "tag": "input",
+    "type": "text",
+    "placeholder": "",
+    "class": "input__field form-control validate[required]",
+    "name": "addr",
+    "value": ""
+  },
+  {
+    "tag": "input",
+    "type": "text",
+    "placeholder": "",
+    "class": "input__field form-control validate[required]",
+    "name": "addr2",
+    "value": ""
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required],custom[email]",
+    "type": "email",
+    "name": "mail",
+    "id": "mail",
+    "value": "",
+    "label": "メールアドレス (abc@ibc.ac.jp)"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control validate[required],custom[phone]",
+    "type": "tel",
+    "name": "tell",
+    "id": "tell",
+    "value": "",
+    "label": "電話番号(携帯可) (090123456XX)"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope101",
+    "value": "101",
+    "id": "hope-101",
+    "label": "ホテル・ブライダル科"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope301",
+    "value": "301",
+    "id": "hope-301",
+    "label": "エアライン科（共通）"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope303",
+    "value": "303",
+    "id": "hope-303",
+    "label": "エアライン科（グランドスタッフ・グランドハンドリングコース）"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope302",
+    "value": "302",
+    "id": "hope-302",
+    "label": "エアライン科（キャビンアテンダントコース）"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope600",
+    "value": "600",
+    "id": "hope-600",
+    "label": "鉄道科"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope820",
+    "value": "820",
+    "id": "hope-820",
+    "label": "国際ビジネス科"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope830",
+    "value": "830",
+    "id": "hope-830",
+    "label": "ITビジネス科"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope800",
+    "value": "800",
+    "id": "hope-800",
+    "label": "国際ホテルマネジメント科 ※留学生対象"
+  },
+  {
+    "tag": "input",
+    "class": "input__field form-control",
+    "type": "checkbox",
+    "name": "hope900",
+    "value": "900",
+    "id": "hope-900",
+    "label": "未定"
+  },
+  {
+    "tag": "textarea",
+    "class": "input__field form-control py-3",
+    "type": "text",
+    "name": "recoque",
+    "id": "recoque",
+    "label": "ご質問など(※任意)"
+  }
+]

@@ -8,3 +8,5 @@ button{font:inherit;cursor:pointer}button:disabled{cursor:default}.site-header{m
 
 /* Optional OC image: preserve the complete image, including poster text. */
 .oc-image{display:block;width:100%;max-width:100%;height:auto;margin:0 0 22px;object-fit:contain}
+
+.editorial-columns{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:25px}.editorial-columns .section-head{align-items:flex-start}.editorial-columns h2{font-size:25px;letter-spacing:.04em;color:#006d7b;margin:0 0 12px}.editorial-columns h2 small{display:block;font-size:14px;font-weight:400;color:#526675;letter-spacing:0}.editorial-columns .section-head>a{font-size:14px;white-space:nowrap}.editorial-columns .news-item time{display:block}.editorial-columns .news-item{font-size:16px}.post-date{color:#526675;font-size:14px}.source-note{font-size:14px;background:#e8eef2;padding:16px}@media(max-width:800px){.editorial-columns{grid-template-columns:1fr;gap:8px}}
